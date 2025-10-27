@@ -1,0 +1,244 @@
+Absolutely ✅ — here’s a **complete, polished set of AWS + DevOps interview questions and their correct answers** (excluding the “career journey” one).
+
+All answers are clear, concise, and technically accurate — ideal for interviews or revision before a DevOps/AWS role.
+
+---
+
+## 🧠 **DevOps & AWS Interview — Questions and Correct Answers**
+
+---
+
+### **1️⃣ What are NACLs and how are they different from Security Groups?**
+
+**Answer:**
+
+* **Network Access Control Lists (NACLs)** act as **firewalls at the subnet level**.
+* They are **stateless**, meaning both **inbound and outbound** rules must be explicitly defined.
+* **Security Groups** act as firewalls at the **instance level** and are **stateful**, meaning return traffic is automatically allowed.
+  **In short:**
+
+> NACLs = Subnet-level, Stateless
+> Security Groups = Instance-level, Stateful
+
+---
+
+### **2️⃣ What are EBS volumes and what are their different types?**
+
+**Answer:**
+EBS (Elastic Block Store) provides **persistent block storage** for EC2 instances.
+
+**Types of EBS volumes:**
+
+1. **gp2/gp3 (General Purpose SSD):** Balanced performance for general workloads.
+2. **io1/io2 (Provisioned IOPS SSD):** High-performance storage for critical databases.
+3. **st1 (Throughput Optimized HDD):** For big data and large sequential workloads.
+4. **sc1 (Cold HDD):** Low-cost storage for infrequently accessed data.
+5. **Magnetic (Standard):** Legacy type, rarely used today.
+
+---
+
+### **3️⃣ How would you design a secure 3-tier AWS application architecture?**
+
+**Answer:**
+
+* **Public Subnet:** Contains Application Load Balancer (ALB) or API Gateway for internet access.
+* **Private Subnet (App Layer):** EC2 instances, ECS tasks, or EKS pods running the application.
+* **Private Subnet (Database Layer):** RDS, Aurora, or DynamoDB.
+
+**Security Measures:**
+
+* Use **NACLs** and **Security Groups** with least privilege.
+* Use **IAM roles** for secure access.
+* **Encrypt data** with **KMS** (at rest) and **SSL/TLS** (in transit).
+* Use **Secrets Manager** or **Parameter Store** for credentials.
+* Enable **AWS WAF** and **Shield** for protection against attacks.
+* Enable **CloudTrail**, **Config**, and **CloudWatch** for logging and monitoring.
+
+---
+
+### **4️⃣ What is data encryption at rest and in transit?**
+
+**Answer:**
+
+* **Encryption at rest:** Protects stored data (e.g., S3, EBS, RDS) using **AWS KMS-managed keys**.
+* **Encryption in transit:** Protects data during transfer using **SSL/TLS certificates**.
+
+---
+
+### **5️⃣ Difference between server-side and client-side encryption.**
+
+**Answer:**
+
+* **Server-Side Encryption (SSE):** AWS encrypts the data after receiving it and before storing it (e.g., SSE-S3, SSE-KMS).
+* **Client-Side Encryption:** The client encrypts data **before** sending it to AWS; AWS stores only the encrypted data.
+
+---
+
+### **6️⃣ Why is Auto Scaling used and what are its types?**
+
+**Answer:**
+Auto Scaling automatically adjusts resources based on demand to maintain performance and reduce cost.
+
+**Types:**
+
+1. **Dynamic Scaling:** Based on metrics like CPU utilization (CloudWatch alarms).
+2. **Scheduled Scaling:** Scales resources at specific times.
+3. **Predictive Scaling:** Uses machine learning to predict traffic patterns and scale accordingly.
+
+---
+
+### **7️⃣ What is connection draining (deregistration delay)?**
+
+**Answer:**
+Connection draining allows existing requests to complete before an instance is deregistered or terminated from a load balancer.
+It prevents users from losing connections during deployments or scaling activities.
+
+---
+
+### **8️⃣ What is Docker and how does Kubernetes relate to Docker?**
+
+**Answer:**
+
+* **Docker** is a platform for containerizing applications and their dependencies to ensure consistent environments.
+* **Kubernetes** is a **container orchestration tool** that automates deployment, scaling, and management of Docker containers across multiple nodes.
+  It adds features like load balancing, auto-healing, and auto-scaling that Docker alone doesn’t provide.
+
+---
+
+### **9️⃣ What is the `imagePullPolicy` in Kubernetes?**
+
+**Answer:**
+The `imagePullPolicy` defines when Kubernetes should pull container images from the registry.
+
+**Values:**
+
+* **Always:** Always pull the image from the registry.
+* **IfNotPresent:** Pull only if the image is not available locally.
+* **Never:** Never pull; use the local image only.
+
+---
+
+### **🔟 What is a Service in Kubernetes and what are its types?**
+
+**Answer:**
+A **Service** in Kubernetes exposes a set of Pods as a network service for communication inside or outside the cluster.
+
+**Types of Services:**
+
+1. **ClusterIP (default):** Internal communication within the cluster.
+2. **NodePort:** Exposes the service on each node’s IP and a specific port.
+3. **LoadBalancer:** Exposes the service externally via a cloud provider’s load balancer.
+4. **ExternalName:** Maps the service to an external DNS name.
+5. *(Optional)* **Headless Service (ClusterIP: None):** Direct pod-to-pod access.
+
+---
+
+### **1️⃣1️⃣ Difference between Deployment and DaemonSet in Kubernetes.**
+
+**Answer:**
+
+* **Deployment:** Manages replicas of pods and ensures the desired number of pods are running. Used for web or app services.
+* **DaemonSet:** Ensures **one pod runs on every node** (or specific nodes). Commonly used for agents like logging or monitoring tools (Fluentd, Prometheus Node Exporter).
+
+---
+
+### **1️⃣2️⃣ Difference between SQL and NoSQL databases.**
+
+**Answer:**
+
+| Feature     | SQL                       | NoSQL                                                         |
+| ----------- | ------------------------- | ------------------------------------------------------------- |
+| Data Model  | Structured (tables, rows) | Unstructured or semi-structured (documents, key-value, graph) |
+| Schema      | Fixed schema              | Dynamic schema                                                |
+| Consistency | ACID (strong consistency) | BASE (eventual consistency)                                   |
+| Scalability | Vertical scaling          | Horizontal scaling                                            |
+| Example     | MySQL, PostgreSQL, Oracle | DynamoDB, MongoDB, Cassandra                                  |
+
+---
+
+### **1️⃣3️⃣ What is Amazon RDS?**
+
+**Answer:**
+Amazon RDS (Relational Database Service) is a **managed relational database service** that supports MySQL, PostgreSQL, MariaDB, Oracle, and SQL Server.
+It automates backups, patching, scaling, and monitoring.
+
+---
+
+### **1️⃣4️⃣ What is Amazon DynamoDB?**
+
+**Answer:**
+Amazon DynamoDB is a **fully managed NoSQL key-value and document database**.
+It offers high availability, automatic scaling, and low-latency performance at any scale.
+It’s ideal for serverless applications and real-time workloads.
+
+---
+
+### **1️⃣5️⃣ Explain a real-world challenge you faced and how you solved it.**
+
+**Answer (Example — Lambda Runtime Upgrade Project):**
+
+> **Situation:** Our client had 1,300 AWS Lambda functions using deprecated runtimes (Python 3.7, Node.js 12).
+> **Task:** Upgrade all Lambda functions to supported runtimes without impacting production.
+> **Action:**
+>
+> * Used **AWS CLI** and **boto3** scripts to automate runtime updates.
+> * Updated Lambda layers and coordinated with app teams for testing.
+> * Used tagging and automation to track migration progress.
+>   **Result:**
+> * Upgraded over **1,100 functions** successfully within 3 weeks, improving security compliance and removing deprecated code.
+
+---
+
+### **1️⃣6️⃣ What monitoring tools or practices have you used?**
+
+**Answer:**
+I use **Amazon CloudWatch** for monitoring metrics, logs, and alarms.
+I’ve also created dashboards using **Amazon QuickSight** for visual insights.
+For deeper observability, I integrate **CloudTrail** for API activity logging and **AWS X-Ray** for tracing requests through microservices.
+In Kubernetes environments, **Prometheus** and **Grafana** are common choices for monitoring and visualization.
+
+---
+
+### **1️⃣7️⃣ Explain `count` and `for_each` in Terraform.**
+
+**Answer:**
+Both `count` and `for_each` are used to **create multiple resources dynamically** in Terraform.
+
+* **count:** Uses an integer to create a fixed number of identical resources.
+
+  ```hcl
+  resource "aws_instance" "server" {
+    count = 3
+    ami   = "ami-12345"
+    instance_type = "t2.micro"
+  }
+  ```
+
+  ➤ Creates 3 EC2 instances.
+
+* **for_each:** Iterates over a map or set, allowing unique identifiers.
+
+  ```hcl
+  resource "aws_instance" "web" {
+    for_each = toset(["dev", "stage", "prod"])
+    ami      = "ami-12345"
+    tags = { Name = each.key }
+  }
+  ```
+
+  ➤ Creates instances named dev, stage, and prod.
+
+---
+
+✅ **These answers cover:**
+
+* AWS core services
+* Security, encryption, scaling
+* Docker & Kubernetes concepts
+* Terraform fundamentals
+* Real-world problem-solving
+* Monitoring and automation practices
+
+---
+
+Would you like me to include **20 more advanced questions** (covering Terraform, Jenkins, CI/CD, and AWS networking like VPC, Route53, CloudFront) with answers next — for senior-level DevOps prep?
