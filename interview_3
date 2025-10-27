@@ -1,0 +1,197 @@
+Got it. I’ve gone through your transcript carefully. I will **keep the questions as they are**, but **correct any incorrect or incomplete answers** with proper technical accuracy. Here’s a corrected version of your Q&A:
+
+---
+
+**Q:** So this is your first company where you are working you said you joined as an intern?
+**A:** Yes, that’s correct.
+
+**Q:** Overall how many years of experience you have?
+**A:** 4.5 years.
+
+**Q:** You did your graduation in computer science or which stream?
+**A:** Computer Science.
+
+**Q:** Which DevOps tools are you comfortable with? You mentioned a bit of Jenkins then AWS, cloud monitoring, yes? Any Terraform, Ansible, apart from this containerization part?
+**A:** I have worked with Jenkins for CI/CD, Ansible for automation, Terraform for infrastructure as code, Docker for containerization, and basic Kubernetes for learning purposes. For Kubernetes, I have done certification and some practice labs, but limited hands-on experience due to no projects in my current company.
+
+**Q:** You have done three AWS exams as well, yes?
+**A:** Yes.
+
+**Q:** Did you find them difficult?
+**A:** The AWS Certified Solutions Architect – Professional was a bit challenging due to the costing and architectural design questions. The other two exams were manageable.
+
+**Q:** Did you use any dumps or anything? How did you prepare for these exams?
+**A:** No dumps. I prepared using Udemy courses provided by my company. The courses included practice labs and documentation, which helped me practice hands-on before the exams.
+
+**Q:** Can you give me some idea about monitoring? Why do we need close monitoring and which kind of monitoring did you work on? Was it out-of-the-box or did you do log monitoring as well?
+**A:** We managed 1500+ production servers, so monitoring was critical to avoid downtime. I worked on infrastructure monitoring using **CloudWatch** and **Zabbix**, application performance monitoring using **AppDynamics**, and uptime & transactional monitoring using **Pingdom**.
+
+**Q:** Do you understand the difference between these tools?
+**A:** Yes.
+
+* CloudWatch: AWS native monitoring, primarily server-level metrics like CPU, disk, network, and some logs. Limited application-level monitoring.
+* Zabbix: Open-source monitoring for metrics like memory, CPU, disk. Requires agents. Limited API-level visibility.
+* AppDynamics: Full application performance monitoring (APM). Monitors APIs, databases, service calls, and provides end-to-end visibility. Can integrate with PagerDuty.
+* Pingdom: External uptime and transactional monitoring. Checks if websites/services are up and performs user-journey tests like login, add to cart, checkout, etc.
+
+**Q:** How did you enable AppDynamics in your environment?
+**A:** By installing multiple agents provided by AppDynamics:
+
+* **Machine Agent**: Monitors server-level metrics (CPU, memory, disk, process).
+* **Application Agent**: Monitors application-level performance. There are language-specific agents like Java, PHP, .NET.
+
+**Q:** Any log monitoring experience?
+**A:** Yes, we used CloudWatch for EC2 logs and **Graylog** for centralized logging. Graylog uses **Filebeat** on servers to ship logs to a centralized dashboard.
+
+**Q:** How did you install monitoring/logging agents on 1500+ servers?
+**A:** Using **Ansible Tower** for automated deployment. We first did auto-discovery of EC2 instances using **Ansible EC2 modules** (e.g., `ec2_info`). Then we generated inventory files in CSV and grouped instances by environment/project. The Ansible Tower deployed agents via SSH keys.
+
+**Q:** How did you handle cross-account servers with Ansible?
+**A:** We used **cross-account IAM roles** in AWS. The Ansible server assumed these roles to access EC2 instances in different AWS accounts. The inventory was updated dynamically using scripts.
+
+**Q:** Containerization: How do you maintain state in containers?
+**A:** For stateful data, we use **persistent storage** like **EBS or EFS volumes**. ECS task definitions manage container scaling, CPU, memory, and restart policies. If a container fails, the ECS agent restarts it. Persistent storage allows subsequent containers to access the data.
+
+**Q:** GitLab experience?
+**A:** No, I primarily worked with **GitHub** for source code.
+
+**Q:** Any DevSecOps/security experience?
+**A:** Yes:
+
+* **Network Firewall**: Restricted outgoing traffic (egress) using AWS Network Firewall.
+* **Suata rules**: Open-source rules for traffic control (pass/alert/drop).
+* **CrowdStrike Falcon**: Endpoint protection.
+* **Tenable (Nessus)**: Vulnerability scanning on servers.
+
+**Q:** How do you do application deployments?
+**A:** We use **Jenkins** for CI/CD.
+
+* EC2 deployments follow **Blue-Green deployment**.
+* Container deployments follow **Canary deployments**.
+* Jenkins uses SSH keys to deploy applications to servers.
+
+**Q:** Is Jenkins the right tool for managing 10-12 applications? Any other options?
+**A:** Jenkins works but can become complex for many applications. Alternatives include **GitLab CI/CD, ArgoCD, Spinnaker, or Ansible Tower automation**, which provide better orchestration and scalability.
+
+**Q:** Security products in the deployment pipeline?
+**A:** As above, **CrowdStrike** and **Tenable** agents help identify and mitigate vulnerabilities during the deployment and runtime.
+
+---
+
+Absolutely! I’ve extracted **all the questions from your transcript** and paired them with **corrected and concise answers** based on the recent post. Here’s the full Q&A set:
+
+---
+
+### **Q&A from Transcript**
+
+**Q1:** We are doing it using Jenkins, but at the application level, then at the infrastructure level we are following Blue-Green deployment for servers running on EC2, and for containerization deployment we are using Canary deployment. Is this correct?
+**A1:** Yes. Blue-Green deployment ensures zero downtime for EC2 applications, while Canary deployment gradually releases containerized updates, reducing risk.
+
+---
+
+**Q2:** Is Jenkins the right tool for managing 10–12+ applications?
+**A2:** Jenkins works since it was configured from the beginning and uses SSH keys for server access. Alternatives like Bitbucket Pipelines, GitLab CI/CD, or Ansible Tower could also be used. Keys are rotated every 3 months using Ansible for security.
+
+---
+
+**Q3:** Do you mind explaining any production event or outage you managed recently?
+**A3:** A 5-minute outage occurred due to Arya, a third-party database. We created replicas and temporarily migrated main data to our RDS system until Arya was restored. The outage was not AWS-related.
+
+---
+
+**Q4:** Why was Arya selected as the database?
+**A4:** At project inception, AWS RDS didn’t meet requirements, so Arya was chosen. The system continues to use it, though future optimization might involve self-managed databases.
+
+---
+
+**Q5:** Any recommendations for infrastructure optimization over your 4.5 years?
+**A5:**
+
+* Migrated Intel EC2 instances to **AWS Graviton** for ~40% cost savings.
+* Migrated EBS volumes from **gp2 → gp3** for better performance and lower cost.
+* Tested changes in non-production environments before production rollout with zero downtime.
+
+---
+
+**Q6:** How did you perform gp2 → gp3 migration on multiple servers?
+**A6:** Using **Ansible Playbooks** with updated IAM roles allowing volume modifications. Non-production environments were tested first.
+
+---
+
+**Q7:** How did you research Graviton migration? Why not everyone uses it?
+**A7:** Through **AWS Enterprise support**. Weekly calls with account managers confirmed compatibility, performance, and cost benefits. No code changes were required for applications.
+
+---
+
+**Q8:** Are you part of AWS discussions? Who else participates?
+**A8:** Yes. The four DevOps leads from our team and two client representatives join AWS support calls.
+
+---
+
+**Q9:** Any recent AWS improvements you implemented?
+**A9:** Enabled **Trusted Advisor** and **Security Hub** to monitor infrastructure health, Lambda deprecations, and ElasticCache updates, improving security and compliance scores.
+
+---
+
+**Q10:** Are you still hands-on? Strongest programming skills?
+**A10:** Yes, hands-on in **Python scripting, Ansible, and Terraform**.
+
+---
+
+**Q11:** Can you write a simple Ansible Playbook?
+**A11:** Example:
+
+```yaml
+---
+- name: Hello World Playbook
+  hosts: localhost
+  tasks:
+    - name: Print Hello World
+      debug:
+        msg: "Hello World"
+```
+
+* Can run locally or on remote servers defined in an inventory file.
+
+---
+
+**Q12:** How do you connect Terraform to AWS?
+**A12:** Terraform uses **IAM roles assigned to the EC2 instance** running the scripts. No hard-coded access keys. Jenkins triggers the Terraform scripts using a Python wrapper.
+
+---
+
+**Q13:** Have you integrated Terraform with Ansible?
+**A13:** Not directly. Terraform is used for infrastructure provisioning, and Ansible handles configuration and deployment separately.
+
+---
+
+**Q14:** How would you create a Terraform resource like an S3 bucket?
+**A14:** Use Terraform `provider` configuration with AWS credentials (preferably via IAM roles) and a resource block:
+
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "example" {
+  bucket = "my-example-bucket"
+  acl    = "private"
+}
+```
+
+---
+
+**Q15:** Motivation to leave current job?
+**A15:** Night shift requirement due to US-based clients conflicts with personal constraints. Looking for a role with flexible timing.
+
+---
+
+**Q16:** GitHub URL?
+**A16:** [Your GitHub URL here] – includes scripts, playbooks, and Terraform examples.
+
+---
+
+If you want, I can now **format all 16 Q&A into a clean, interview-ready PDF or one-page sheet**, so you can quickly revise before interviews.
+
+Do you want me to do that?
+
